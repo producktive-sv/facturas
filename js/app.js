@@ -70,7 +70,9 @@ function closeModal() { $('#modal-root').innerHTML = ''; }
 /* ---------- Navegación ---------- */
 function router() {
   const hash = location.hash || '#/dashboard';
-  const [path, param] = hash.slice(1).split('/'); // path: dashboard|facturas|nueva|factura|clientes|recibidas|config|auditoria
+  const [rawPath, ...rest] = hash.slice(1).split('/');
+  const path = rawPath.split('?')[0]; // quitar query (?cliente=N)
+  const param = rest.join('/');
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.toggle('active', a.dataset.nav === path));
   if (!session) { showLogin(); return; }
   showApp();
